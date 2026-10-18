@@ -1,5 +1,6 @@
 name: Review demo and visual evidence
 # Source-backed, unpublished review branch only.
+# Final review includes OG image tags and authentic CLI demonstration.
 
 on:
   push:
