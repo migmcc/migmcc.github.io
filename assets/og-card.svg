@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="t d">
+<title id="t">MigMCC — Engineering tools with verifiable outcomes</title><desc id="d">Dark navy Open Graph social sharing card for a personal open-source engineering portfolio.</desc>
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#081323"/><stop offset=".55" stop-color="#11293b"/><stop offset="1" stop-color="#163b43"/></linearGradient><linearGradient id="accent" x2="1" y2="0"><stop stop-color="#8cead4"/><stop offset="1" stop-color="#aabafa"/></linearGradient></defs>
+<rect width="1200" height="630" fill="url(#bg)"/><g opacity=".16" stroke="#aacdde" fill="none"><circle cx="1060" cy="130" r="300"/><circle cx="1060" cy="130" r="220"/><circle cx="1060" cy="130" r="140"/><path d="M660 20L1180 540M720 0L1200 440"/></g>
+<rect x="62" y="72" width="58" height="58" rx="14" fill="#8cead4"/><path d="M80 109V93l10 10 11-17v23" fill="none" stroke="#102634" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="140" y="114" font-family="Arial,Helvetica,sans-serif" font-size="38" fill="#f3f8ff" font-weight="bold">MigMCC</text>
+<text x="62" y="195" font-family="Arial,Helvetica,sans-serif" font-size="18" letter-spacing="3" fill="#8cead4" font-weight="bold">QUALITY ENGINEERING  ·  PYTHON  ·  AI WORKFLOWS</text>
+<text x="62" y="286" font-family="Arial,Helvetica,sans-serif" font-size="58" fill="#ffffff" font-weight="bold">Tools that make</text>
+<text x="62" y="357" font-family="Arial,Helvetica,sans-serif" font-size="58" fill="#ffffff" font-weight="bold">technical work</text>
+<text x="62" y="428" font-family="Arial,Helvetica,sans-serif" font-size="58" fill="url(#accent)" font-weight="bold">easier to verify.</text>
+<rect x="62" y="478" width="725" height="2" fill="#446877"/>
+<text x="62" y="528" font-family="Arial,Helvetica,sans-serif" font-size="25" fill="#cedbe8">Open-source project tools and documented workflows.</text>
+<text x="62" y="581" font-family="Arial,Helvetica,sans-serif" font-size="24" fill="#8cead4" font-weight="bold">migmcc.github.io</text>
+<g transform="translate(862 239)"><rect x="0" y="0" width="250" height="255" rx="24" fill="#102434" stroke="#507988" stroke-width="2"/><path d="M46 83l34 33 56-69" fill="none" stroke="#8cead4" stroke-width="11" stroke-linecap="round"/><path d="M46 165h160M46 195h116" stroke="#637f95" stroke-width="9" stroke-linecap="round"/></g>
+</svg>
