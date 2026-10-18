@@ -31,6 +31,7 @@ class Page(HTMLParser):
         self.h1 = 0
         self.description = False
         self.noindex = False
+        self.og_properties: set[str] = set()
         self.viewport = False
         self.title = False
         self.links: list[str] = []
@@ -48,6 +49,8 @@ class Page(HTMLParser):
             self.viewport = True
         if tag == "meta" and a.get("name") == "robots" and "noindex" in (a.get("content") or ""):
             self.noindex = True
+        if tag == "meta" and a.get("property", "").startswith("og:") and a.get("content"):
+            self.og_properties.add(a["property"])
         if a.get("id"):
             self.ids.add(a["id"])
         for key in ("href", "src"):
@@ -78,6 +81,9 @@ def validate() -> list[str]:
             errors.append(f"{name}: missing noindex")
         if name != "404.html" and parser.noindex:
             errors.append(f"{name}: must not contain noindex")
+        for property_name in ("og:title", "og:description", "og:type", "og:url"):
+            if property_name not in parser.og_properties:
+                errors.append(f"{name}: missing {property_name}")
         if "main" not in parser.ids:
             errors.append(f"{name}: missing main landmark id")
         for url in parser.links:
