@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from html.parser import HTMLParser
 from pathlib import Path
+from struct import unpack
 from urllib.parse import unquote, urlsplit
 
 SITE = Path(__file__).resolve().parents[1]
@@ -22,7 +23,7 @@ EXPECTED = [
     "projects/project-pilot/index.html",
     "projects/AgentDesk/index.html",
 ]
-ASSETS = ["assets/site.css", "assets/catalog.js"]
+ASSETS = ["assets/site.css", "assets/catalog.js", "assets/og-card.png"]
 
 
 class Page(HTMLParser):
@@ -32,6 +33,7 @@ class Page(HTMLParser):
         self.description = False
         self.noindex = False
         self.og_properties: set[str] = set()
+        self.og_content: dict[str, str] = {}
         self.viewport = False
         self.title = False
         self.links: list[str] = []
@@ -51,6 +53,7 @@ class Page(HTMLParser):
             self.noindex = True
         if tag == "meta" and a.get("property", "").startswith("og:") and a.get("content"):
             self.og_properties.add(a["property"])
+            self.og_content[a["property"]] = a["content"]
         if a.get("id"):
             self.ids.add(a["id"])
         for key in ("href", "src"):
@@ -84,6 +87,18 @@ def validate() -> list[str]:
         for property_name in ("og:title", "og:description", "og:type", "og:url"):
             if property_name not in parser.og_properties:
                 errors.append(f"{name}: missing {property_name}")
+        if name == "index.html" and "og:image" not in parser.og_properties:
+            errors.append("index.html: missing og:image")
+        if name == "index.html":
+            expected_og = {
+                "og:image": "https://migmcc.github.io/assets/og-card.png",
+                "og:image:width": "1200",
+                "og:image:height": "630",
+                "og:image:alt": "MigMCC open-source engineering tools",
+            }
+            for property_name, content in expected_og.items():
+                if parser.og_content.get(property_name) != content:
+                    errors.append(f"index.html: invalid {property_name}")
         if "main" not in parser.ids:
             errors.append(f"{name}: missing main landmark id")
         for url in parser.links:
@@ -98,6 +113,13 @@ def validate() -> list[str]:
                     errors.append(f"{name}: broken internal link: {url}")
             elif url.startswith("#") and parsed.fragment and parsed.fragment not in parser.ids:
                 errors.append(f"{name}: missing anchor: {url}")
+    og_card = SITE / "assets/og-card.png"
+    if og_card.is_file():
+        header = og_card.read_bytes()[:24]
+        if header[:8] != b"\x89PNG\r\n\x1a\n":
+            errors.append("assets/og-card.png: expected PNG image")
+        elif unpack(">II", header[16:24]) != (1200, 630):
+            errors.append("assets/og-card.png: expected dimensions 1200x630")
     return errors
 
 
