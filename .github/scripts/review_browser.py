@@ -29,6 +29,10 @@ try:
                 response = page.goto(base + route, wait_until="networkidle")
                 assert response and response.status == 200, f"{route}: HTTP error"
                 assert page.locator("h1").count() == 1, route
+                assert page.locator('meta[property="og:image"]').get_attribute("content").endswith("/assets/og-card.png"), route
+                if route == "/projects/project-pilot/":
+                    assert page.locator("#verified-demo").count() == 1
+                    assert page.get_by_text("What ProjectPilot returned in a real run").count() == 1
                 assert page.evaluate("document.documentElement.scrollWidth <= innerWidth"), f"{name} overflow: {route}"
                 assert not errors, f"{route}: {errors}"
                 if route in ["/", "/projects/quality-docs-validator/", "/projects/project-pilot/"]:
@@ -41,4 +45,4 @@ try:
         browser.close()
 finally:
     server.shutdown()
-print("PASS: 8 routes on 1440x900 and 390x844; search, h1, browser errors, overflow, captures")
+print("PASS: 8 routes on 1440x900 and 390x844; search, h1, OG images, verified demo, browser errors, overflow, captures")
