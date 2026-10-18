@@ -1,4 +1,5 @@
 name: Review demo and visual evidence
+# Source-backed, unpublished review branch only.
 
 on:
   push:
