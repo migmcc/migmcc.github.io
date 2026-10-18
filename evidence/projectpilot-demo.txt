@@ -1,0 +1,48 @@
+# ProjectPilot — actual CLI execution on GitHub Actions
+# Date: 2026-10-18 UTC
+# Workflow: https://github.com/migmcc/migmcc.github.io/actions/runs/39114405547
+# Python 3.12, Ubuntu GitHub runner, projectpilot-1.1.0.dev0 (main checkout)
+# Isolated synthetic test project: Review Assistant
+
+$ pp init "a local code review assistant" --name "Review Assistant"
+Initialized ProjectPilot project 'Review Assistant' (review-assistant).
+State: .project-pilot/status.json
+Current phase: idea
+
+$ pp status
+Project: Review Assistant (review-assistant)
+Current phase: idea
+Next phase: validation
+Decision: none
+Brief: not imported
+Setup advice: not prepared
+A-team check: not run
+Execution approval: not approved
+Final validation: not prepared
+Done approval: not approved
+Active gate: Run `pp validate` to proceed.
+Next action: Run `pp validate` to enter validation and generate the validation prompt.
+
+$ pp next
+Current phase: Idea
+Recommended next action
+1. Enter validation
+   Priority: High
+   Reason: The idea has not been validated yet.
+   Suggested command: pp validate
+After clearing the Idea gate, ProjectPilot advances to the Validation phase. Review the work before advancing.
+
+$ pp dashboard
+Project Health: Review Assistant
+Phase: Idea
+██████████ 100%
+Ready to progress:
+Yes
+Top recommendation
+Enter validation
+Suggested command
+pp validate
+Artifacts (0)
+(none)
+Recommended skills
+(none)
