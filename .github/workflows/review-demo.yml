@@ -1,0 +1,73 @@
+name: Review demo and visual evidence
+# Source-backed, unpublished review branch only.
+# Final review includes OG image tags and authentic CLI demonstration.
+
+on:
+  push:
+    branches:
+      - feature/real-demo-og-validation
+    paths:
+      - .github/workflows/review-demo.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  demo-and-browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install review dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install playwright cairosvg
+          python -m playwright install chromium
+      - name: Make raster Open Graph image
+        run: |
+          python -c "import cairosvg; cairosvg.svg2png(url='assets/og-card.svg', write_to='assets/og-card.png', output_width=1200, output_height=630)"
+      - name: Run ProjectPilot in an isolated test project
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 https://github.com/migmcc/project-pilot.git /tmp/project-pilot-source
+          python -m pip install -e /tmp/project-pilot-source
+          mkdir -p /tmp/projectpilot-demonstration
+          cd /tmp/projectpilot-demonstration
+          {
+            echo "# ProjectPilot real CLI execution"
+            echo "## pp init"
+            pp init "a local code review assistant" --name "Review Assistant"
+            echo "## pp status"
+            pp status
+            echo "## pp next"
+            pp next
+            echo "## pp dashboard"
+            pp dashboard
+          } | tee "$GITHUB_WORKSPACE/projectpilot-demo.log"
+      - name: Validate site pages and browser behavior
+        run: |
+          python tests/validate_portal.py
+          python .github/scripts/review_browser.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: migmcc-review-evidence
+          path: |
+            evidence/*.png
+            projectpilot-demo.log
+            assets/og-card.png
+      - name: Commit social image to review branch only
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/og-card.png
+          if ! git diff --staged --quiet; then
+            git commit -m "assets: render Open Graph social sharing card"
+            git push origin HEAD:feature/real-demo-og-validation
+          fi
