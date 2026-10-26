@@ -21,6 +21,7 @@ EXPECTED = [
     "projects/agent-skill-quality-gate/index.html",
     "projects/project-pilot/index.html",
     "projects/AgentDesk/index.html",
+    "projects/workattest/index.html",
 ]
 ASSETS = ["assets/site.css", "assets/catalog.js"]
 

@@ -1,6 +1,6 @@
 # MigMCC Engineering portfolio
 
-Static GitHub Pages portfolio for Miguel Santos. It presents five open-source
+Static GitHub Pages portfolio for Miguel Santos. It presents six open-source
 projects in quality engineering, Python automation and AI-assisted development.
 
 ## Structure
@@ -32,6 +32,9 @@ Then open `http://localhost:8000/`.
 4. Use only claims and links supported by the project's own documentation.
 5. Run the checks below and inspect desktop and mobile layouts.
 
+`WorkAttest` has a local presentation page in this branch. Until this portal
+branch is published, external sites must not link visitors to that future URL.
+
 ## Test
 
 ```sh
@@ -51,6 +54,6 @@ root; do not place them under a `site/` subdirectory.
 ## Verify a deployment
 
 After GitHub Pages completes, confirm the home page, `/projects/`, `/about/`,
-all five project routes, `/sitemap.xml` and `/robots.txt` over HTTPS. Check
+all six project routes, `/sitemap.xml` and `/robots.txt` over HTTPS. Check
 browser console errors, keyboard focus, the catalogue filter and responsive
 layouts at 1440 × 900 and 390 × 844.
