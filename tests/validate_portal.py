@@ -6,6 +6,7 @@ This checks structure, not live browser rendering, content truth or external lin
 """
 from __future__ import annotations
 
+import re
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
@@ -21,8 +22,35 @@ EXPECTED = [
     "projects/agent-skill-quality-gate/index.html",
     "projects/project-pilot/index.html",
     "projects/AgentDesk/index.html",
+    "projects/workattest/index.html",
 ]
-ASSETS = ["assets/site.css", "assets/catalog.js"]
+ASSETS = ["assets/site.css", "assets/catalog.css", "assets/catalog.js", "assets/catalog-data.js"]
+FEATURED_SLUGS = [
+    "quality-docs-validator",
+    "agent-skill-quality-gate",
+    "project-pilot",
+    "AgentDesk",
+    "workattest",
+]
+CATALOGUE_ACTIONS = {
+    "quality-docs-validator": "https://github.com/migmcc/quality-docs-validator/releases/tag/v0.3.0",
+    "agent-skill-quality-gate": "https://github.com/migmcc/agent-skill-quality-gate/releases/tag/v0.1.0",
+    "project-pilot": "https://github.com/migmcc/project-pilot/tree/v1.0.0",
+    "AgentDesk": "https://github.com/migmcc/AgentDesk/releases/tag/v0.4.2",
+    "workattest": "https://github.com/migmcc/WorkAttest",
+}
+CATALOGUE_CARD_STATUSES = {
+    "quality-docs-validator": "Stable release · v0.3.0",
+    "agent-skill-quality-gate": "Alpha release · v0.1.0",
+    "project-pilot": "Stable source tag · v1.0.0",
+    "AgentDesk": "Stable release · v0.4.2",
+    "workattest": "MVP · source only",
+}
+HOMEPAGE_SELECTED = {
+    "quality-docs-validator",
+    "agent-skill-quality-gate",
+    "workattest",
+}
 
 
 class Page(HTMLParser):
@@ -98,6 +126,90 @@ def validate() -> list[str]:
                     errors.append(f"{name}: broken internal link: {url}")
             elif url.startswith("#") and parsed.fragment and parsed.fragment not in parser.ids:
                 errors.append(f"{name}: missing anchor: {url}")
+
+    catalogue = SITE / "assets/catalog-data.js"
+    if catalogue.is_file():
+        catalogue_text = catalogue.read_text(encoding="utf-8")
+        for slug in FEATURED_SLUGS:
+            if f'"slug":"{slug}"' not in catalogue_text:
+                errors.append(f"catalogue: missing featured project: {slug}")
+        for mode in ("stable-release", "stable-source-tag", "source-only-mvp"):
+            if f'"distribution":"{mode}"' not in catalogue_text:
+                errors.append(f"catalogue: missing distribution mode: {mode}")
+        if "public-repo-audit" in catalogue_text:
+            errors.append("catalogue: public-repo-audit must not be featured")
+        for slug, action_url in CATALOGUE_ACTIONS.items():
+            if action_url not in catalogue_text:
+                errors.append(f"catalogue: missing verified action URL for {slug}")
+
+    project_index = (SITE / "projects/index.html")
+    if project_index.is_file():
+        index_text = project_index.read_text(encoding="utf-8")
+        if "projects/workattest/index.html" not in index_text:
+            errors.append("projects/index.html: WorkAttest is missing from featured cards")
+        if "projects/public-repo-audit/index.html" in index_text:
+            errors.append("projects/index.html: Public Repo Audit must not be featured")
+        if index_text.count('class="status') != 5:
+            errors.append("projects/index.html: expected five visible project status labels")
+        cards = dict(re.findall(r'<article class="card" data-slug="([^"]+)">(.*?)</article>', index_text))
+        if set(cards) != set(FEATURED_SLUGS):
+            errors.append("projects/index.html: card slugs must match the approved catalogue")
+        for slug, action_url in CATALOGUE_ACTIONS.items():
+            card = cards.get(slug, "")
+            if f'../projects/{slug}/index.html' not in card:
+                errors.append(f"projects/index.html: missing project card link for {slug}")
+            if action_url not in card:
+                errors.append(f"projects/index.html: missing verified action URL for {slug}")
+            if CATALOGUE_CARD_STATUSES[slug] not in card:
+                errors.append(f"projects/index.html: status diverges from catalogue for {slug}")
+
+    catalogue_css = SITE / "assets/catalog.css"
+    if catalogue_css.is_file():
+        css_text = catalogue_css.read_text(encoding="utf-8")
+        for selector in (".projects-hero", ".release-guide", ".card-actions", ".primary-action"):
+            if selector not in css_text:
+                errors.append(f"assets/catalog.css: missing {selector} styling")
+        if "@media(max-width:580px)" not in css_text:
+            errors.append("assets/catalog.css: missing mobile layout rules")
+
+    catalogue_script = SITE / "assets/catalog.js"
+    if catalogue_script.is_file():
+        script_text = catalogue_script.read_text(encoding="utf-8")
+        for class_name in ("projects-hero", "release-guide", "card-actions", "primary-action", "secondary-action"):
+            if class_name not in script_text:
+                errors.append(f"assets/catalog.js: missing {class_name} presentation hook")
+
+    for project in FEATURED_SLUGS:
+        page = SITE / "projects" / project / "index.html"
+        if page.is_file() and "Download" in page.read_text(encoding="utf-8"):
+            errors.append(f"projects/{project}/index.html: must not describe a source archive as a download")
+
+    homepage = SITE / "index.html"
+    if homepage.is_file():
+        homepage_text = homepage.read_text(encoding="utf-8")
+        if "projects/workattest/index.html" not in homepage_text:
+            errors.append("index.html: WorkAttest must appear in selected work")
+        if "projects/public-repo-audit/index.html" in homepage_text:
+            errors.append("index.html: Public Repo Audit must not appear in selected work")
+        homepage_cards = set(re.findall(
+            r'<article class="card"[^>]*>.*?href="projects/([^/]+)/index.html"',
+            homepage_text,
+        ))
+        if homepage_cards != HOMEPAGE_SELECTED:
+            errors.append("index.html: selected work must match the approved homepage set")
+
+    workattest = SITE / "projects/workattest/index.html"
+    if workattest.is_file():
+        workattest_text = workattest.read_text(encoding="utf-8")
+        for phrase in (
+            "MVP",
+            "source-only",
+            "development key storage",
+            "trusted operator",
+            "not a production security control",
+        ):
+            if phrase not in workattest_text:
+                errors.append(f"projects/workattest/index.html: missing documented limitation: {phrase}")
     return errors
 
 
