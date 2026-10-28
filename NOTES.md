@@ -33,5 +33,14 @@ assets/catalog.js`; e `git diff --check` sem erros.
 resolver a identidade CriaTek vs pessoal de Public Repo Audit antes de qualquer
 entrada futura; confirmar visualmente as dimensões 1440 × 900 e 390 × 844.
 
-**Próximo passo:** criar commit Gate 1, fazer push e abrir PR draft para
-`main`. Merge e publicação continuam a requerer autorização específica.
+**Follow-up PR #5:** a homepage foi alinhada com WorkAttest em vez de Public
+Repo Audit. A página WorkAttest declara o escopo MVP/source-only e os limites
+de custódia de chaves e comandos definidos pelo operador. As regressões agora
+cobrem a coerência entre catálogo, cartões, CTAs, estados e seleção da homepage.
+
+**Dependência futura:** o PR #4 permanece draft e conserva Public Repo Audit
+no diagrama da sua descrição. Não é alterado neste trabalho; deve ser
+reconciliado com a seleção aprovada depois da integração do PR #5.
+
+**Próximo passo:** rever o PR #5 atualizado sem o marcar ready. Merge e
+publicação continuam a requerer autorização específica.
