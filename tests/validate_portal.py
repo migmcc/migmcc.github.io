@@ -24,7 +24,14 @@ EXPECTED = [
     "projects/AgentDesk/index.html",
     "projects/workattest/index.html",
 ]
-ASSETS = ["assets/site.css", "assets/catalog.css", "assets/catalog.js", "assets/catalog-data.js"]
+ASSETS = [
+    "assets/site.css",
+    "assets/catalog.css",
+    "assets/catalog.js",
+    "assets/catalog-data.js",
+    "assets/overview.css",
+    "assets/projects-overview.svg",
+]
 FEATURED_SLUGS = [
     "quality-docs-validator",
     "agent-skill-quality-gate",
@@ -197,6 +204,45 @@ def validate() -> list[str]:
         ))
         if homepage_cards != HOMEPAGE_SELECTED:
             errors.append("index.html: selected work must match the approved homepage set")
+        if 'src="assets/projects-overview.svg"' not in homepage_text:
+            errors.append("index.html: missing approved project overview map")
+        if "Five focused tools. One shared engineering approach." not in homepage_text:
+            errors.append("index.html: missing approved project overview title")
+        if "Five focused tools. One practical system." in homepage_text:
+            errors.append("index.html: contains superseded project overview title")
+        mobile_map = re.search(
+            r'<div class="project-map-mobile">(.*?)</div>', homepage_text, re.DOTALL
+        )
+        if not mobile_map:
+            errors.append("index.html: missing mobile project overview links")
+        else:
+            for slug in FEATURED_SLUGS:
+                if f'projects/{slug}/index.html' not in mobile_map.group(1):
+                    errors.append(f"index.html: missing project overview link for {slug}")
+
+    overview = SITE / "assets/projects-overview.svg"
+    if overview.is_file():
+        overview_text = overview.read_text(encoding="utf-8")
+        for title in (
+            "Quality Docs Validator",
+            "Agent Skill Quality Gate",
+            "ProjectPilot",
+            "Agent Desk",
+            "WorkAttest",
+        ):
+            if title not in overview_text:
+                errors.append(f"assets/projects-overview.svg: missing approved project: {title}")
+        if "Public Repo Audit" in overview_text:
+            errors.append("assets/projects-overview.svg: Public Repo Audit must not be featured")
+
+    overview_css = SITE / "assets/overview.css"
+    if overview_css.is_file():
+        overview_css_text = overview_css.read_text(encoding="utf-8")
+        for selector in (".project-system", ".project-map", ".project-map-mobile"):
+            if selector not in overview_css_text:
+                errors.append(f"assets/overview.css: missing {selector} styling")
+        if "@media(max-width:1000px)" not in overview_css_text:
+            errors.append("assets/overview.css: missing mobile map layout rule")
 
     workattest = SITE / "projects/workattest/index.html"
     if workattest.is_file():
