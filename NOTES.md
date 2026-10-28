@@ -45,6 +45,9 @@ alternativa móvel herda o mesmo `h2` da secção. As regressões confirmam os
 cinco projetos, a ausência de Public Repo Audit e o aviso WorkAttest
 MVP/source-only preservado.
 
-**Próximo passo:** criar um novo PR a partir desta branch após autorização e
-depois fechar ou substituir o PR #4 original. Merge e publicação continuam a
-requerer autorização específica.
+**PR Gate 2:** [PR #6](https://github.com/migmcc/migmcc.github.io/pull/6) foi
+aberto em draft contra `main` a partir de `feat/gate2-pr4-reconcile`. O PR #4
+original não foi alterado.
+
+**Próximo passo:** validar o novo PR e depois fechar ou substituir o PR #4
+original. Merge e publicação continuam a requerer autorização específica.
