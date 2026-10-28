@@ -1,0 +1,10 @@
+.project-system{background:linear-gradient(135deg,#0b1729,#102936 55%,#0d1d2b);border-block:1px solid #28515d}
+.project-map{margin:0;border:1px solid #376b75;border-radius:18px;overflow:hidden;background:#0b1729;box-shadow:0 18px 46px #02081155}
+.project-map img{display:block;width:100%;height:auto}
+.project-map figcaption{color:var(--muted);font-size:.84rem;padding:12px 17px;background:#0c1c2a}
+.project-map-mobile{display:none}
+.project-map-mobile a{display:block;text-decoration:none;color:var(--text);background:#122534;border:1px solid #396e78;border-radius:12px;padding:16px;margin-top:11px}
+.project-map-mobile strong,.project-map-mobile span{display:block}
+.project-map-mobile strong{color:#93ecde;font-size:1rem}
+.project-map-mobile span{color:var(--muted);font-size:.92rem;margin-top:2px}
+@media(max-width:1000px){.project-map{display:none}.project-map-mobile{display:block}}

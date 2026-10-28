@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Five MigMCC engineering tools</title>
+  <desc id="desc">A dark blue and teal system map linking five open-source tools to documented inputs and reviewable outputs.</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#0b1729"/><stop offset="1" stop-color="#173d49"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <path d="M915 0L1200 210M1050 0L1200 130M0 535L230 675M0 630L75 675" stroke="#2a6570" stroke-width="2" opacity=".8"/>
+  <g fill="none" stroke="#4bc4b5" stroke-width="2" opacity=".7"><path d="M600 156V222M390 342H246M810 342H954M463 468L344 524M737 468L856 524"/></g>
+  <circle cx="600" cy="188" r="7" fill="#7ce6d3" filter="url(#glow)"/>
+  <g font-family="Arial,sans-serif">
+    <text x="60" y="71" fill="#8ce9db" font-size="20" font-weight="700" letter-spacing="3">MIGMCC / OPEN-SOURCE TOOLSET</text>
+    <text x="60" y="113" fill="#c3d8e3" font-size="18">Documented inputs · explicit checks · reviewable outputs</text>
+    <g transform="translate(420 220)"><rect width="360" height="122" rx="14" fill="#102b38" stroke="#69dccc" stroke-width="2"/><text x="26" y="40" fill="#a8f0e4" font-size="16" font-weight="700" letter-spacing="2">THE COMMON THREAD</text><text x="26" y="77" fill="#fff" font-size="25" font-weight="700">Practical engineering</text><text x="26" y="103" fill="#c3d8e3" font-size="16">Evidence that a person can review</text></g>
+    <g transform="translate(60 270)"><rect width="330" height="145" rx="14" fill="#132638" stroke="#4d9fac"/><text x="23" y="35" fill="#81e3d4" font-size="15" font-weight="700">01 / QUALITY ENGINEERING</text><text x="23" y="71" fill="#fff" font-size="23" font-weight="700">Quality Docs Validator</text><text x="23" y="104" fill="#c3d8e3" font-size="16">PFMEA + Control Plan</text><text x="23" y="127" fill="#c3d8e3" font-size="16">→ potential findings</text></g>
+    <g transform="translate(810 270)"><rect width="330" height="145" rx="14" fill="#132638" stroke="#4d9fac"/><text x="23" y="35" fill="#81e3d4" font-size="15" font-weight="700">02 / TRACEABILITY</text><text x="23" y="71" fill="#fff" font-size="23" font-weight="700">WorkAttest</text><text x="23" y="104" fill="#c3d8e3" font-size="16">Accountability receipts</text><text x="23" y="127" fill="#c3d8e3" font-size="16">→ MVP / source-only</text></g>
+    <g transform="translate(155 494)"><rect width="300" height="130" rx="14" fill="#132638" stroke="#4d9fac"/><text x="22" y="34" fill="#81e3d4" font-size="14" font-weight="700">03 / AI TOOLING</text><text x="22" y="68" fill="#fff" font-size="21" font-weight="700">Agent Skill Quality Gate</text><text x="22" y="101" fill="#c3d8e3" font-size="15">SKILL.md checks</text><text x="22" y="122" fill="#c3d8e3" font-size="15">→ deterministic findings</text></g>
+    <g transform="translate(450 494)"><rect width="300" height="130" rx="14" fill="#132638" stroke="#4d9fac"/><text x="22" y="34" fill="#81e3d4" font-size="14" font-weight="700">04 / PROJECT WORKFLOW</text><text x="22" y="68" fill="#fff" font-size="21" font-weight="700">ProjectPilot</text><text x="22" y="101" fill="#c3d8e3" font-size="15">Lifecycle evidence</text><text x="22" y="122" fill="#c3d8e3" font-size="15">→ next-step guidance</text></g>
+    <g transform="translate(745 494)"><rect width="300" height="130" rx="14" fill="#132638" stroke="#4d9fac"/><text x="22" y="34" fill="#81e3d4" font-size="14" font-weight="700">05 / AI TOOLING</text><text x="22" y="68" fill="#fff" font-size="21" font-weight="700">Agent Desk</text><text x="22" y="101" fill="#c3d8e3" font-size="15">Manual coordination</text><text x="22" y="122" fill="#c3d8e3" font-size="15">→ structured handovers</text></g>
+  </g>
+</svg>

@@ -1,10 +1,9 @@
 # Estado — Gate 1 catálogo e apresentação, 2026-10-28
 
-**Estado:** implementação local isolada no branch
-`feat/gate1-portfolio-catalog`, baseada em
-`improve/portfolio-project-paths-oct26`. Gate 1 aprovado para commit, push e
-PR draft; merge, GitHub Pages, alteração de visibilidade e alterações de
-repositórios de produto continuam excluídos.
+**Estado:** Gate 1 foi integrado em `main` no commit
+`3b59d95394ea5374f66ccd8910a891f4a7a36c9b` e GitHub Pages foi validado pelo
+titular. Gate 2 decorre apenas localmente em `feat/gate2-pr4-reconcile`,
+partindo dessa `main`; não há commit, push, merge ou deploy autorizado.
 
 - Criado `assets/catalog-data.js` como registo estruturado das cinco entradas
   aprovadas: Quality Docs Validator, Agent Skill Quality Gate, ProjectPilot,
@@ -33,14 +32,22 @@ assets/catalog.js`; e `git diff --check` sem erros.
 resolver a identidade CriaTek vs pessoal de Public Repo Audit antes de qualquer
 entrada futura; confirmar visualmente as dimensões 1440 × 900 e 390 × 844.
 
-**Follow-up PR #5:** a homepage foi alinhada com WorkAttest em vez de Public
-Repo Audit. A página WorkAttest declara o escopo MVP/source-only e os limites
-de custódia de chaves e comandos definidos pelo operador. As regressões agora
-cobrem a coerência entre catálogo, cartões, CTAs, estados e seleção da homepage.
+**Gate 2 / PR #4:** o PR #4 continua draft (`f7a3f61`) e está `DIRTY` contra a
+`main` atual. Reaproveitar apenas o mapa de apresentação e a alternativa móvel:
+substituir Public Repo Audit por WorkAttest, preservar os metadados Open Graph
+já existentes na `main` e evitar a reformatação ampla do PR antigo. O catálogo,
+CTAs, estados e avisos da página WorkAttest não são alterados.
 
-**Dependência futura:** o PR #4 permanece draft e conserva Public Repo Audit
-no diagrama da sua descrição. Não é alterado neste trabalho; deve ser
-reconciliado com a seleção aprovada depois da integração do PR #5.
+**Gate 2 final:** a revisão humana desktop e mobile (390 px) aprovou o mapa e
+os cartões móveis. O título partilhado da secção passou para “Five focused
+tools. One shared engineering approach.”; o SVG não contém esse título e a
+alternativa móvel herda o mesmo `h2` da secção. As regressões confirmam os
+cinco projetos, a ausência de Public Repo Audit e o aviso WorkAttest
+MVP/source-only preservado.
 
-**Próximo passo:** rever o PR #5 atualizado sem o marcar ready. Merge e
-publicação continuam a requerer autorização específica.
+**PR Gate 2:** [PR #6](https://github.com/migmcc/migmcc.github.io/pull/6) foi
+aberto em draft contra `main` a partir de `feat/gate2-pr4-reconcile`. O PR #4
+original não foi alterado.
+
+**Próximo passo:** validar o novo PR e depois fechar ou substituir o PR #4
+original. Merge e publicação continuam a requerer autorização específica.
