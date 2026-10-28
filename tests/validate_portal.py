@@ -23,7 +23,14 @@ EXPECTED = [
     "projects/AgentDesk/index.html",
     "projects/workattest/index.html",
 ]
-ASSETS = ["assets/site.css", "assets/catalog.js"]
+ASSETS = ["assets/site.css", "assets/catalog.css", "assets/catalog.js", "assets/catalog-data.js"]
+FEATURED_SLUGS = [
+    "quality-docs-validator",
+    "agent-skill-quality-gate",
+    "project-pilot",
+    "AgentDesk",
+    "workattest",
+]
 
 
 class Page(HTMLParser):
@@ -99,6 +106,49 @@ def validate() -> list[str]:
                     errors.append(f"{name}: broken internal link: {url}")
             elif url.startswith("#") and parsed.fragment and parsed.fragment not in parser.ids:
                 errors.append(f"{name}: missing anchor: {url}")
+
+    catalogue = SITE / "assets/catalog-data.js"
+    if catalogue.is_file():
+        catalogue_text = catalogue.read_text(encoding="utf-8")
+        for slug in FEATURED_SLUGS:
+            if f'"slug":"{slug}"' not in catalogue_text:
+                errors.append(f"catalogue: missing featured project: {slug}")
+        for mode in ("stable-release", "stable-source-tag", "source-only-mvp"):
+            if f'"distribution":"{mode}"' not in catalogue_text:
+                errors.append(f"catalogue: missing distribution mode: {mode}")
+        if "public-repo-audit" in catalogue_text:
+            errors.append("catalogue: public-repo-audit must not be featured")
+
+    project_index = (SITE / "projects/index.html")
+    if project_index.is_file():
+        index_text = project_index.read_text(encoding="utf-8")
+        if "projects/workattest/index.html" not in index_text:
+            errors.append("projects/index.html: WorkAttest is missing from featured cards")
+        if "projects/public-repo-audit/index.html" in index_text:
+            errors.append("projects/index.html: Public Repo Audit must not be featured")
+        if index_text.count('class="status') != 5:
+            errors.append("projects/index.html: expected five visible project status labels")
+
+    catalogue_css = SITE / "assets/catalog.css"
+    if catalogue_css.is_file():
+        css_text = catalogue_css.read_text(encoding="utf-8")
+        for selector in (".projects-hero", ".release-guide", ".card-actions", ".primary-action"):
+            if selector not in css_text:
+                errors.append(f"assets/catalog.css: missing {selector} styling")
+        if "@media(max-width:580px)" not in css_text:
+            errors.append("assets/catalog.css: missing mobile layout rules")
+
+    catalogue_script = SITE / "assets/catalog.js"
+    if catalogue_script.is_file():
+        script_text = catalogue_script.read_text(encoding="utf-8")
+        for class_name in ("projects-hero", "release-guide", "card-actions", "primary-action", "secondary-action"):
+            if class_name not in script_text:
+                errors.append(f"assets/catalog.js: missing {class_name} presentation hook")
+
+    for project in FEATURED_SLUGS:
+        page = SITE / "projects" / project / "index.html"
+        if page.is_file() and "Download" in page.read_text(encoding="utf-8"):
+            errors.append(f"projects/{project}/index.html: must not describe a source archive as a download")
     return errors
 
 

@@ -1,14 +1,14 @@
 # MigMCC Engineering portfolio
 
-Static GitHub Pages portfolio for Miguel Santos. It presents six open-source
-projects in quality engineering, Python automation and AI-assisted development.
+Static GitHub Pages portfolio for Miguel Santos. It presents five selected
+open-source projects in quality engineering, Python automation and AI-assisted development.
 
 ## Structure
 
 - `index.html` — home page.
 - `projects/` — searchable catalogue and one page per project.
 - `about/` — background and contact information.
-- `assets/` — shared CSS and catalogue search JavaScript.
+- `assets/` — shared CSS, catalogue data and search JavaScript.
 - `404.html`, `robots.txt`, `sitemap.xml` and `.nojekyll` — GitHub Pages and SEO files.
 - `tests/validate_portal.py` — dependency-free structural regression check.
 
@@ -26,14 +26,14 @@ Then open `http://localhost:8000/`.
 
 1. Copy an existing page under `projects/` and keep one `h1`, a unique title,
    description, canonical URL and Open Graph URL.
-2. Add the project card to `projects/index.html` and, when appropriate, to the
+2. Add a verified record to `assets/catalog-data.js`, then add the project card to `projects/index.html` and, when appropriate, to the
    selected-work section on `index.html`.
 3. Add the canonical URL to `sitemap.xml` and update its `lastmod` date.
 4. Use only claims and links supported by the project's own documentation.
 5. Run the checks below and inspect desktop and mobile layouts.
 
-`WorkAttest` has a local presentation page in this branch. Until this portal
-branch is published, external sites must not link visitors to that future URL.
+`WorkAttest` is a source-only MVP. Do not label source archives or a Git tag as an
+application download; show the release, tag or source-only status verified in the catalogue.
 
 ## Test
 
